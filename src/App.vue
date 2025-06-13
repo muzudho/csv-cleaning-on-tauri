@@ -1,6 +1,6 @@
 <script setup lang="ts">
     import { ref } from "vue";
-    //import { invoke } from "@tauri-apps/api/core";
+    import { invoke } from "@tauri-apps/api/core";
     import { open } from '@tauri-apps/plugin-dialog';
 
     const filePathVM = ref("C:\\Users\\muzud\\OneDrive\\ドキュメント\\temp\\temp.csv");
@@ -26,7 +26,16 @@
 
     async function onExecuteButtonClicked() {
         console.log("［Execute］ボタンを押したぜ。")
-        textVM.value = `テスト中３ Execute selectedItemVM:[${selectedItemVM.value}]`
+        //textVM.value = `テスト中３ Execute selectedItemVM:[${selectedItemVM.value}]`
+        // TODO 変換(textVM.value)
+        textVM.value = await callTranslate(textVM.value, selectedItemVM.value)
+    }
+
+    // Tauriのコマンドを呼び出し。
+    // 文字列を渡すと、指定の操作を実施後の文字列を返す。
+    async function callTranslate(sourceStr: string, commandName: string): Promise<string> {
+        const resultStr = await invoke<string>('translate', { sourceStr: sourceStr, commandName: commandName });
+        return resultStr;
     }
 </script>
 
