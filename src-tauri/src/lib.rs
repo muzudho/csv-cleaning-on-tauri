@@ -1,5 +1,5 @@
-use std::fs::{self};
-use std::path::Path;
+//use std::fs::{self};
+//use std::path::Path;
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
@@ -10,7 +10,9 @@ fn greet(name: &str) -> String {
 // ディレクトリー内のファイル名を取得するTauriコマンド。
 // 読取成功時はファイル名のリストを、失敗時はエラーメッセージを返す。
 #[tauri::command]
-fn translate(source_str: &str, command_name: &str) -> String {
+fn translate(name: &str) -> String {
+    //, command_name: &str
+    /*
     if command_name == "都道府県スプリット" {
     // 47都道府県のリスト
         let prefectures = [
@@ -37,6 +39,9 @@ fn translate(source_str: &str, command_name: &str) -> String {
         return format!("マッチなし：{0}",source_str)
     }
     source_str.to_string()
+    */
+    "テスト中４".to_string()
+    //name.to_string()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
