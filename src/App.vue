@@ -26,7 +26,7 @@
 
     async function onExecuteButtonClicked() {
         console.log("［Execute］ボタンを押したぜ。")
-        textVM.value = "テスト中３ Execute"
+        textVM.value = `テスト中３ Execute selectedItemVM:[${selectedItemVM.value}]`
     }
 </script>
 
@@ -37,14 +37,15 @@
             <button @click="onReadButtonClicked" style="width:20%; height: 10vh;">Read</button>
             <button @click="onWriteButtonClicked" style="width:20%; height: 10vh;">Write</button>
         </div>
+        <textarea style="width:100%; height:80vh;" v-model="textVM"></textarea>
         <div class="row">
-            <select v-model="selectedItemVM">
-                <option value="都道府県スプリット">都道府県スプリット</option>
+            <select v-model="selectedItemVM" style="width:80%;">
+                <option value="" selected></option>
+                <option value="都道府県スプリット1">都道府県スプリット</option>
             </select>
-            <p>選ばれた値: {{ selectedItemVM || 'まだ選んでないよ！' }}</p>
+            <!--<p>選ばれた値: {{ selectedItemVM || 'まだ選んでないよ！' }}</p>-->
             <button @click="onExecuteButtonClicked" style="width:20%; height: 10vh;">Execute</button>
         </div>
-        <textarea style="width:100%; height:80vh;" v-model="textVM"></textarea>
     </main>
 </template>
 
