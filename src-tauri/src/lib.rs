@@ -19,37 +19,44 @@ fn greet(name: &str) -> String {
 #[allow(non_snake_case)]
 fn translate(sourceStr:&str, commandName: &str) -> String {
     if commandName == "都道府県スプリット1" {
-    // 47都道府県のリスト
-        let prefectures = [
-            "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
-            "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
-            "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
-            "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
-            "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
-            "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
-            "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
-        ];
-
         let mut s = String::from("");
         let lines: Vec<&str> = sourceStr.lines().collect();
         for &line in lines.iter() {
-            for &pref in prefectures.iter() {
-                if line.starts_with(pref) {    // 都道府県名にマッチするものを探す
-                    // 都道府県名の長さを取得
-                    let pref_len = pref.len();
-                    // 都道府県以降の部分を抽出
-                    let rest = &line[pref_len..];
-                    s.push_str(&format!("{0},{1}\n",pref,rest));
-                }
-                else{
-                    s.push_str(&format!("{}\n",&pref));
-                }
-            }        
+            let pref = get_pref(line);  // 都道府県名にマッチするものを探す
+            if pref != "" {
+                let pref_len = pref.len();      // 都道府県名の長さを取得                    
+                let rest = &line[pref_len..];   // 都道府県以降の部分を抽出
+                s.push_str(&format!("{0},{1}\n",pref,rest));
+            }
+            else{
+                s.push_str(&format!("{}\n",&pref));
+            }
         }
 
         return s
     }
     sourceStr.to_string()
+}
+
+pub fn get_pref(line: &str) -> &'static str {
+    // 47都道府県のリスト
+    let prefectures = [
+        "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
+        "茨城県", "栃木県", "群馬県", "埼玉県", "千葉県", "東京都", "神奈川県",
+        "新潟県", "富山県", "石川県", "福井県", "山梨県", "長野県", "岐阜県",
+        "静岡県", "愛知県", "三重県", "滋賀県", "京都府", "大阪府", "兵庫県",
+        "奈良県", "和歌山県", "鳥取県", "島根県", "岡山県", "広島県", "山口県",
+        "徳島県", "香川県", "愛媛県", "高知県", "福岡県", "佐賀県", "長崎県",
+        "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
+    ];
+
+    for &pref in prefectures.iter() {
+        if line.starts_with(pref) {    // 都道府県名にマッチするものを探す
+            return pref
+        }
+    }        
+
+    return ""
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
