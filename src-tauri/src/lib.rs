@@ -10,8 +10,8 @@ fn greet(name: &str) -> String {
 // ディレクトリー内のファイル名を取得するTauriコマンド。
 // 読取成功時はファイル名のリストを、失敗時はエラーメッセージを返す。
 #[tauri::command]
-fn translate() -> String {
-    //command_name: &str
+fn translate(name: &str) -> String {
+    //
     //source_str:&str, 
     /*
     if command_name == "都道府県スプリット" {
@@ -40,8 +40,8 @@ fn translate() -> String {
         return format!("マッチなし：{0}",source_str)
     }
     */
-    "テスト中４".to_string()
-    //command_name.to_string()
+    //"テスト中４".to_string()
+    name.to_string()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
