@@ -28,16 +28,13 @@
         console.log("［Execute］ボタンを押したぜ。")
         //textVM.value = `テスト中３ Execute selectedItemVM:[${selectedItemVM.value}]`
         // TODO 変換(textVM.value)
-        textVM.value = await callTranslate()
-        //textVM.value, selectedItemVM.value
+        textVM.value = await callTranslate(selectedItemVM.value)    // textVM.value,
     }
 
     // Tauriのコマンドを呼び出し。
     // 文字列を渡すと、指定の操作を実施後の文字列を返す。
-    async function callTranslate(): Promise<String> {
-        // sourceStr: string, commandName: string
-        const resultStr = await invoke<string>('translate', {name: "てすと五"}); //  source_str: sourceStr, command_name: commandName 
-        //const resultStr = await invoke<string>('translate', {name: "てすと五"}); //  source_str: sourceStr, command_name: commandName 
+    async function callTranslate(commandName: string): Promise<String> {    // sourceStr: string, 
+        const resultStr = await invoke<string>('translate', {});   //command_name: commandName source_str: sourceStr, 
         return resultStr;
     }
 </script>
