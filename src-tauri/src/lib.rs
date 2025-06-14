@@ -29,7 +29,7 @@ fn translate(sourceStr:&str, commandName: &str) -> String {
                 s.push_str(&format!("{0},{1}\n",pref,rest));
             }
             else{
-                s.push_str(&format!("{}\n",&pref));
+                s.push_str(&format!(",{}\n",&line));    // 空列を入れる。
             }
         }
 
