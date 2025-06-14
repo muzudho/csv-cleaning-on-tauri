@@ -30,18 +30,24 @@ fn translate(sourceStr:&str, commandName: &str) -> String {
             "熊本県", "大分県", "宮崎県", "鹿児島県", "沖縄県",
         ];
 
-        // 都道府県名にマッチするものを探す
-        for &pref in prefectures.iter() {
-            if sourceStr.starts_with(pref) {
-                // 都道府県名の長さを取得
-                let pref_len = pref.len();
-                // 都道府県以降の部分を抽出
-                let rest = &sourceStr[pref_len..];
-                return format!("{0},{1}",pref,rest)
-            }
-        }        
+        let mut s = String::from("");
+        let lines: Vec<&str> = sourceStr.lines().collect();
+        for &line in lines.iter() {
+            for &pref in prefectures.iter() {
+                if line.starts_with(pref) {    // 都道府県名にマッチするものを探す
+                    // 都道府県名の長さを取得
+                    let pref_len = pref.len();
+                    // 都道府県以降の部分を抽出
+                    let rest = &line[pref_len..];
+                    s.push_str(&format!("{0},{1}\n",pref,rest));
+                }
+                else{
+                    s.push_str(&format!("{}\n",&pref));
+                }
+            }        
+        }
 
-        return format!("マッチなし：{0}",sourceStr)
+        return s
     }
     sourceStr.to_string()
 }
