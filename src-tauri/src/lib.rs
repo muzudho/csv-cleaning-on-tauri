@@ -9,12 +9,16 @@ fn greet(name: &str) -> String {
 
 // ディレクトリー内のファイル名を取得するTauriコマンド。
 // 読取成功時はファイル名のリストを、失敗時はエラーメッセージを返す。
+// NOTE: 引数にアンダースコア区切りは使えないようだ。
+//      (Grok)
+//      Rust 側で #[tauri::command] を付けた関数の引数名は、JavaScript 側でそのままキー名として使われる。
+//      JavaScript ではスネークケースは一般的じゃないから、Tauri はキャメルケースを前提にシリアライズ/デシリアライズを行う。
+//      スネークケースだと、Vue から送ったデータが Rust 側で正しくマッチしないんだ。
+//      ついでに、#[tauri::command] の関数名自体もスネークケース推奨だぜ。キャメルケースの関数名でも動くけど、Tauri のドキュメントや慣習ではスネークケースが一般的だから、統一すると読みやすいよ。
 #[tauri::command]
-fn translate(name: &str) -> String {
-    //
-    //source_str:&str, 
-    /*
-    if command_name == "都道府県スプリット" {
+#[allow(non_snake_case)]
+fn translate(sourceStr:&str, commandName: &str) -> String {
+    if commandName == "都道府県スプリット1" {
     // 47都道府県のリスト
         let prefectures = [
             "北海道", "青森県", "岩手県", "宮城県", "秋田県", "山形県", "福島県",
@@ -28,20 +32,18 @@ fn translate(name: &str) -> String {
 
         // 都道府県名にマッチするものを探す
         for &pref in prefectures.iter() {
-            if source_str.starts_with(pref) {
+            if sourceStr.starts_with(pref) {
                 // 都道府県名の長さを取得
                 let pref_len = pref.len();
                 // 都道府県以降の部分を抽出
-                let rest = &source_str[pref_len..];
+                let rest = &sourceStr[pref_len..];
                 return format!("{0},{1}",pref,rest)
             }
         }        
 
-        return format!("マッチなし：{0}",source_str)
+        return format!("マッチなし：{0}",sourceStr)
     }
-    */
-    //"テスト中４".to_string()
-    name.to_string()
+    sourceStr.to_string()
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
